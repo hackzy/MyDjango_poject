@@ -1,0 +1,140 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--360浏览器优先以webkit内核解析-->
+
+
+    <title> - 主页示例</title>
+
+    <link rel="shortcut icon" href="favicon.ico"> 
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/font-awesome.css' %}" rel="stylesheet">
+    <link href="{% static 'css/animate.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>资产登记</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="alert alert-info">
+                            此处可加入说明文档！
+                        </div>
+                        <form role="form" class="form-horizontal m-t">
+                            <div class="form-group draggable col-sm-6">
+                                <label class="col-sm-3 control-label">资产编号：</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="number" class="form-control" required="" placeholder="请输入文本">
+                                    <!--span class="help-block m-b-none">说明文字</span-->
+                                </div>
+                            </div>
+                            <div class="form-group draggable col-sm-6">
+                                <label class="col-sm-3 control-label">分类名称：</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" name="classify">
+                                        <option>选项 1</option>
+                                        <option>选项 2</option>
+                                        <option>选项 3</option>
+                                        <option>选项 4</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group draggable col-sm-6">
+                                <label class="col-sm-3 control-label">规格型号：</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="model" class="form-control" required="" placeholder="请输入文本">
+                                </div>
+                            </div>
+                            <div class="form-group draggable col-sm-6">
+                                <label class="col-sm-3 control-label">资产物理位置：</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="position" class="form-control" required="" placeholder="请输入文本">
+                                </div>
+                            </div>
+                            <div class="form-group draggable col-sm-6">
+                                <label class="col-sm-3 control-label">当前机构：</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" name="department">
+                                        <option>选项 1</option>
+                                        <option>选项 2</option>
+                                        <option>选项 3</option>
+                                        <option>选项 4</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group draggable col-sm-6">
+                                <label class="col-sm-3 control-label">备注：</label>
+                                <div class="col-sm-9">
+                                <textarea id="ccomment" name="remarks" class="form-control" aria-required="true"></textarea></div>
+                            </div>
+                            <div class="form-group draggable col-sm-6">
+                                <label class="col-sm-3 control-label">当前状态：
+                                </label>
+                                <div class="col-sm-9">
+                                    <label class="radio-inline">
+                                        <input type="radio" checked="" value="待用" id="optionsRadios1" name="optionsRadios">待用</label>
+                                    <label class="radio-inline">
+                                        <input type="radio" value="在用" id="optionsRadios2" name="optionsRadios">在用</label>
+                                    <label class="radio-inline">
+                                        <input type="radio" value="待报废" id="optionsRadios2" name="optionsRadios">待报废</label>
+                                </div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group draggable">
+                                <div class="col-sm-12 col-sm-offset-5">
+                                    <button class="btn btn-primary" type="submit">保存内容</button>
+                                    <button class="btn btn-white" type="reset">取消</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-5">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>批量导入</h5>
+                    <input type="button" class="btn btn-primary pull-right" value="模板下载" src="">
+                </div>
+                <div class="ibox-content">
+                    <div id="file-pretty">
+                        <div class="form-group">
+                            <label class="font-noraml">文件选择（单选）</label>
+                            <input type="file" class="form-control">
+                        </div>
+                        
+                    </div>
+                </div>
+            </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/plugins/layer/layer.min.js' %}"></script>
+    <!-- Flot -->
+    <script src="{% static 'js/plugins/flot/jquery.flot.js' %}"></script>
+    <script src="{% static 'js/plugins/flot/jquery.flot.tooltip.min.js' %}"></script>
+    <script src="{% static 'js/plugins/flot/jquery.flot.resize.js' %}"></script>
+    <script src="{% static 'js/plugins/flot/jquery.flot.pie.js' %}"></script>
+    <!-- 自定义js -->
+    <script src="{% static 'js/content.js' %}"></script>
+    <!--flotdemo-->
+
+</body>
+
+</html>

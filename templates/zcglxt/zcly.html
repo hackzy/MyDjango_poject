@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html>
+{% load static %}
+<head>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--360浏览器优先以webkit内核解析-->
+
+
+    <title> - 主页示例</title>
+
+    <link rel="shortcut icon" href="favicon.ico"> 
+    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/font-awesome.css' %}" rel="stylesheet">
+    <link href="{% static 'css/animate.css' %}" rel="stylesheet">
+    <link href="{% static 'css/style.css' %}" rel="stylesheet">
+
+</head>
+
+<body class="gray-bg">
+    <div class="wrapper wrapper-content">
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>资产领用</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <div class="alert alert-info">
+                            此处可加入说明文档！
+                        </div>
+                        <form role="form" class="form-horizontal m-t">
+                            <div class="form-group draggable col-sm-6">
+                                <label class="col-sm-3 control-label">资产编号：</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="" class="form-control" placeholder="请输入文本">
+                                    <!--span class="help-block m-b-none">说明文字</span-->
+                                </div>
+                            </div>
+                            <div class="form-group draggable col-sm-6">
+                                <label class="col-sm-3 control-label">领用机构：</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" name="">
+                                        <option>选项 1</option>
+                                        <option>选项 2</option>
+                                        <option>选项 3</option>
+                                        <option>选项 4</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group draggable col-sm-6">
+                                <label class="col-sm-3 control-label">规格型号：</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="" class="form-control" placeholder="请输入文本">
+                                </div>
+                            </div>
+                            <div class="form-group draggable col-sm-6">
+                                <label class="col-sm-3 control-label">资产物理位置：</label>
+                                <div class="col-sm-9">
+                                    <input type="text" name="" class="form-control" placeholder="请输入文本">
+                                </div>
+                            </div>
+                            <div class="form-group draggable col-sm-6">
+                                <label class="col-sm-3 control-label">当前机构：</label>
+                                <div class="col-sm-9">
+                                    <select class="form-control" name="">
+                                        <option>选项 1</option>
+                                        <option>选项 2</option>
+                                        <option>选项 3</option>
+                                        <option>选项 4</option>
+                                    </select>
+                                </div>
+                            </div>
+                            <div class="form-group draggable col-sm-6">
+                                <label class="col-sm-3 control-label">备注：</label>
+                                <div class="col-sm-9">
+                                <textarea id="ccomment" name="comment" class="form-control" required="" aria-required="true"></textarea></div>
+                            </div>
+                            <div class="hr-line-dashed"></div>
+                            <div class="form-group draggable">
+                                <div class="col-sm-12 col-sm-offset-5">
+                                    <button class="btn btn-primary" type="submit">保存内容</button>
+                                    <button class="btn btn-white" type="submit">取消</button>
+                                </div>
+                            </div>
+                        </form>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+        <div class="row">
+            <div class="col-sm-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>待用资产</h5>
+                    </div>
+                    <div class="ibox-content">
+
+                        <table class="table table-striped table-bordered table-hover dataTables-example">
+                            <thead>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>资产编号</th>
+                                    <th>分类名称</th>
+                                    <th>规格型号</th>
+                                    <th>机构</th>
+                                    <th>摆放位置</th>
+                                    <th>IP地址</th>
+                                    <th>备注</th>
+
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="gradeA">
+                                    <td>Trident</td>
+                                    <td>Internet Explorer 4.0</td>
+                                    <td>Win 95+</td>
+                                    <td class="center">4</td>
+                                    <td class="center">X</td>
+                                    <td class="center">4</td>
+                                    <td class="center">X</td>
+                                    <td class="center">4</td>
+                                </tr>
+
+                            </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>序号</th>
+                                    <th>资产编号</th>
+                                    <th>分类名称</th>
+                                    <th>规格型号</th>
+                                    <th>机构</th>
+                                    <th>摆放位置</th>
+                                    <th>IP地址</th>
+                                    <th>备注</th>
+                                </tr>
+                            </tfoot>
+                        </table>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- 全局js -->
+    <script src="{% static 'js/jquery.min.js' %}"></script>
+    <script src="{% static 'js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'js/plugins/layer/layer.min.js' %}"></script>
+    <!-- Flot -->
+    <script src="{% static 'js/plugins/flot/jquery.flot.js' %}"></script>
+    <script src="{% static 'js/plugins/flot/jquery.flot.tooltip.min.js' %}"></script>
+    <script src="{% static 'js/plugins/flot/jquery.flot.resize.js' %}"></script>
+    <script src="{% static 'js/plugins/flot/jquery.flot.pie.js' %}"></script>
+    <!-- 自定义js -->
+    <script src="{% static 'js/content.js' %}"></script>
+    <!--flotdemo-->
+    
+    <script>
+        $(document).ready(function () {
+            $('.dataTables-example').dataTable({columnDefs: [
+            { targets: [0], width: '20px' }, // 设置第1、2、3列的最大宽度为200px
+            { targets: '_all', width: '150px' } // 设置所有列的最大宽度为100px
+        ]})}
+        )
+    </script>
+</body>
+
+</html>

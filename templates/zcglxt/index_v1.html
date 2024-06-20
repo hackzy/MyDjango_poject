@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>jQuery Clock</title>
+{%load static%}
+<script src="{% static 'js/jquery.min.js'%}"></script>
+<script>
+$(document).ready(function(){
+    function updateClock(){
+        var now = new Date();
+        var seconds = now.getSeconds();
+        var minutes = now.getMinutes();
+        var hours = now.getHours();
+        hours = hours;
+        hours = hours < 10 ? "0" + hours : hours;
+        minutes = minutes < 10 ? "0" + minutes : minutes;
+        seconds = seconds < 10 ? "0" + seconds : seconds;
+        var time = hours + ":" + minutes + ":" + seconds;
+        $("#clock").text(time);
+    }
+ 
+    setInterval(updateClock, 1000);
+    updateClock();
+});
+</script>
+</head>
+<body>
+<div class="center" id="clock"></div>
+</body>
+</html>
