@@ -1,3 +1,9 @@
 from django.contrib import admin
+from zcglxt.models import *
 
 # Register your models here.
+admin.site.register(data_all)
+admin.site.register(edit_log)
+admin.site.register(department)
+admin.site.register(status)
+admin.site.register(type_name)
