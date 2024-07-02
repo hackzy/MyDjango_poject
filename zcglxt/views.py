@@ -1,5 +1,7 @@
 from django.shortcuts import render
 from django.core.handlers.wsgi import WSGIRequest
+
+from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
 def index(request):
@@ -8,13 +10,11 @@ def index(request):
 
 def index_v1(request):
     return render(request,'index_v1.html')
-
+@csrf_exempt
 def zcdj(request:WSGIRequest):
-    if request.GET != {}:
-        print(request.COOKIES)
-        print(request.GET)
-        
-    return render(request,'zcdj.html')
+    if request.method == 'POST':
+        print(request.POST)
+    return render(request,'zcdj.html',status=200)
 
 def zcly(request):
     return render(request,'zcly.html')
