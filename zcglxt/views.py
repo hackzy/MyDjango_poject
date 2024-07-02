@@ -1,6 +1,7 @@
 from django.shortcuts import render
+from django.http import JsonResponse
 from django.core.handlers.wsgi import WSGIRequest
-from zcglxt.models import data_all
+from zcglxt.models import data_all,departments,type_names,status
 from django.views.decorators.csrf import csrf_exempt
 # Create your views here.
 
@@ -15,12 +16,20 @@ def zcdj(request:WSGIRequest):
     if request.method == 'POST':
         print(request.POST.dict())
         post = request.POST.dict()
-        db = data_all(number = post['number'],type_name = post['type_name'], \
-                      model = post['model'],depart_name = post['depart_name'], \
+        typeName = type_names.objects.get(id=int(post['type_name']))
+        departName = departments.objects.get(id=int(post['depart_name']))
+        statusValue = status.objects.get(id=int(post['status']))
+        db = data_all(number = post['number'],type_name = typeName, \
+                      model = post['model'],depart_name = departName, \
                         pos = post['pos'],ip = post['ip'],descr = post['descr'], \
-                            )
+                        status = statusValue    )
+        db.save()
     return render(request,'zcdj.html',status=200)
-
+def get_options(request):
+    depart_names = list(departments.objects.values('id','name'))
+    type_name = list(type_names.objects.values('id','name'))
+    print(depart_names,type_name)
+    return JsonResponse({'depart_names':depart_names,'type_names':type_name},safe=False)
 def zcly(request):
     return render(request,'zcly.html')
 

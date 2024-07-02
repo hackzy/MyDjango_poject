@@ -1,12 +1,13 @@
 from django.contrib import admin
 from django.urls import path,include
-from zcglxt.views import index,index_v1,zcdj,zcbb,zcly,zctb,zcth
+from zcglxt.views import index,index_v1,zcdj,zcbb,zcly,zctb,zcth,get_options
 urlpatterns = [
     path('admin/', admin.site.urls),
     
     path('', index),
     path('index_v1',index_v1),
     path('zcdj',zcdj),
+    path('get_options',get_options),
     path('zcbb',zcbb),
     path('zcly',zcly),
     path('zctb',zctb),
