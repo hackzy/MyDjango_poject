@@ -16,9 +16,9 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path,include
-from zcdj.views import index,index_v1,zcdj,zcbb,zcly,zctb,zcth
+from zcglxt.views import index,index_v1,zcdj,zcbb,zcly,zctb,zcth
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('',include('index.urls','index')),
+    path('',include(('zcglxt.urls','index'))),
 
 ]

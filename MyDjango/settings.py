@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     #项目应用
-    'zcdj'
+    'zcglxt'
 ]
 
 MIDDLEWARE = [
