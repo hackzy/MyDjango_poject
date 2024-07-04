@@ -41,3 +41,8 @@ $(document).ready(function(){
         });
         
     })
+
+
+    function is_exist(){
+        
+    }
