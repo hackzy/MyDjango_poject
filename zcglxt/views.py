@@ -30,6 +30,12 @@ def get_options(request):
     type_name = list(type_names.objects.values('id','name'))
     print(depart_names,type_name)
     return JsonResponse({'depart_names':depart_names,'type_names':type_name},safe=False)
+@csrf_exempt
+def upload_file(request:WSGIRequest):
+    if request.method == 'POST':
+        
+    
+    return render(request,'zcdj.html')
 def zcly(request):
     return render(request,'zcly.html')
 
