@@ -23,7 +23,6 @@ $(document).ready(function(){
         }
 })
 }
-
     
     );
     $('#zcdj').on('submit',function(event){
@@ -42,17 +41,26 @@ $(document).ready(function(){
         
     });
     $('#file_upload').on('change',function(event){
-        var files = new FormData();
-        files.append('file',this.files[0]);
-        files.append('csrfmifflewaretoken','{{ csrf_token }}');
-        $.ajax({
-            type: "POST",
-            url:'file_upload',
-            data:files,
-            processData:false,
-            contentType:false,
-            success:function(response){
-                $('.alert').text(response.text);
+        const file = event.target.files[0];
+        if (file){
+            const fileType = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','application/vnd.ms-excel']
+            if (!(fileType.includes(file.type))){
+                $('.alert').text('请上传Excel文件！');
+                return
             }
-        })
+            var files = new FormData();
+            files.append('file',this.files[0]);
+            files.append('csrfmifflewaretoken','{{ csrf_token }}');
+            $.ajax({
+                type: "POST",
+                url:'file_upload',
+                data:files,
+                processData:false,
+                contentType:false,
+                success:function(response){
+                    $('.alert').text(response.message);
+
+                }
+            })
+        }
     });
