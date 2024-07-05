@@ -40,9 +40,19 @@ $(document).ready(function(){
             }
         });
         
-    })
-
-
-    function is_exist(){
-        
-    }
+    });
+    $('#file_upload').on('change',function(event){
+        var files = new FormData();
+        files.append('file',this.files[0]);
+        files.append('csrfmifflewaretoken','{{ csrf_token }}');
+        $.ajax({
+            type: "POST",
+            url:'file_upload',
+            data:files,
+            processData:false,
+            contentType:false,
+            success:function(response){
+                $('.alert').text(response.text);
+            }
+        })
+    });

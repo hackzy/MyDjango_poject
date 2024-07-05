@@ -13,10 +13,9 @@
 
     <link rel="shortcut icon" href="favicon.ico"> 
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
-    <link href="{% static 'css/font-awesome.css' %}" rel="stylesheet">
-    <link href="{% static 'css/animate.css' %}" rel="stylesheet">
+    <link href="{% static 'css/datatables.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
-
+    
 </head>
 
 <body class="gray-bg">
@@ -109,6 +108,7 @@
                                     <th>规格型号</th>
                                     <th>机构</th>
                                     <th>摆放位置</th>
+                                    <th>状态</th>
                                     <th>IP地址</th>
                                     <th>备注</th>
 
@@ -124,6 +124,7 @@
                                     <td class="center">4</td>
                                     <td class="center">X</td>
                                     <td class="center">4</td>
+                                    <td>0</td>
                                 </tr>
 
                             </tbody>
@@ -135,6 +136,7 @@
                                     <th>规格型号</th>
                                     <th>机构</th>
                                     <th>摆放位置</th>
+                                    <th>状态</th>
                                     <th>IP地址</th>
                                     <th>备注</th>
                                 </tr>
@@ -149,22 +151,19 @@
     <!-- 全局js -->
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/plugins/layer/layer.min.js' %}"></script>
+    <script src="{% static 'js/datatables.min.js' %}"></script>
     <!-- Flot -->
-    <script src="{% static 'js/plugins/flot/jquery.flot.js' %}"></script>
-    <script src="{% static 'js/plugins/flot/jquery.flot.tooltip.min.js' %}"></script>
-    <script src="{% static 'js/plugins/flot/jquery.flot.resize.js' %}"></script>
-    <script src="{% static 'js/plugins/flot/jquery.flot.pie.js' %}"></script>
+
     <!-- 自定义js -->
     <script src="{% static 'js/content.js' %}"></script>
     <!--flotdemo-->
     
     <script>
         $(document).ready(function () {
-            $('.dataTables-example').dataTable({columnDefs: [
-            { targets: [0], width: '20px' }, // 设置第1、2、3列的最大宽度为200px
-            { targets: '_all', width: '150px' } // 设置所有列的最大宽度为100px
-        ]})}
+            $('.dataTables-example').dataTable({
+                language:{url:"{% static 'js/zh.json' %}"}
+                
+            })}
         )
     </script>
 </body>
