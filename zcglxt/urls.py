@@ -1,6 +1,6 @@
 from django.contrib import admin
 from django.urls import path,include
-from zcglxt.views import index,index_v1,zcdj,zcbb,zcly,zctb,zcth,get_options,upload_file
+from zcglxt.views import index,index_v1,zcdj,zcbb,zcly,zctb,zcth,get_options,upload_file,get_inactive
 urlpatterns = [
     path('admin/', admin.site.urls),
     
@@ -11,6 +11,7 @@ urlpatterns = [
     path('file_upload',upload_file),
     path('zcbb',zcbb),
     path('zcly',zcly),
+    path('get_inactive',get_inactive),
     path('zctb',zctb),
     path('zcth',zcth),
 ]

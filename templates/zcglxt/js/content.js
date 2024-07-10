@@ -22,7 +22,21 @@ $(document).ready(function(){
             
         }
 })
-}
+},
+function(){
+$('dataTables-example').DataTable({
+    function(){
+        $.ajax({
+            type: "GET",
+            url: "get_inactive",
+            data: "data",
+            dataType: "dataType",
+            success: function (response) {
+                
+            }
+        });
+    }
+})}
     
     );
     $('#zcdj').on('submit',function(event){
@@ -60,7 +74,10 @@ $(document).ready(function(){
                 success:function(response){
                     $('.alert').text(response.message);
 
+
                 }
             })
         }
     });
+    
+
