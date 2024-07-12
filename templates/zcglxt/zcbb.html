@@ -11,10 +11,10 @@
 
     <title> - 主页示例</title>
 
-    <link rel="shortcut icon" href="favicon.ico">
+    <link rel="shortcut icon" href="favicon.ico"> 
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
     <link href="{% static 'css/font-awesome.css' %}" rel="stylesheet">
-    <link href="{% static 'css/animate.css' %}" rel="stylesheet">
+    <link href="{% static 'css/plugins/dataTables/dataTables.bootstrap.css' %}" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
 
 </head>
@@ -149,23 +149,12 @@
     <!-- 全局js -->
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
-    <script src="{% static 'js/plugins/layer/layer.min.js' %}"></script>
-    <!-- Flot -->
-    <script src="{% static 'js/plugins/flot/jquery.flot.js' %}"></script>
-    <script src="{% static 'js/plugins/flot/jquery.flot.tooltip.min.js' %}"></script>
-    <script src="{% static 'js/plugins/flot/jquery.flot.resize.js' %}"></script>
-    <script src="{% static 'js/plugins/flot/jquery.flot.pie.js' %}"></script>
+    <script src="{% static 'js/plugins/dataTables/jquery.dataTables.js' %}"></script>
+    <script src="{% static 'js/plugins/dataTables/dataTables.bootstrap.js' %}"></script>
+
     <!-- 自定义js -->
     <script src="{% static 'js/content.js' %}"></script>
     <!--flotdemo-->
-    <script>
-        $(document).ready(function () {
-            $('.dataTables-example').dataTable({columnDefs: [
-            { targets: [0], width: '20px' }, // 设置第1、2、3列的最大宽度为200px
-            { targets: '_all', width: '150px' } // 设置所有列的最大宽度为100px
-        ]})}
-        )
-    </script>
 </body>
 
 </html>

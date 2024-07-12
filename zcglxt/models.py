@@ -14,13 +14,16 @@ class edit_log(models.Model):
 
 class departments(models.Model):
     name = models.CharField(max_length=20,verbose_name='机构名称')
-
+    def __str__(self) -> str:
+        return self.name
 class type_names(models.Model):
     name = models.CharField(max_length=20,verbose_name='分类名称')
-
+    def __str__(self) -> str:
+        return self.name
 class status(models.Model):
     status = models.CharField(max_length=6,verbose_name='状态')
-
+    def __str__(self) -> str:
+        return self.status
 class data_all(models.Model):
     number = models.CharField(max_length=18,verbose_name='资产编号')
     type_name = models.ForeignKey(type_names,verbose_name='分类名称',on_delete=models.PROTECT)

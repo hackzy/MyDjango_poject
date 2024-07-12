@@ -54,8 +54,20 @@ def zcly(request):
     return render(request,'zcly.html')
 
 def get_inactive(request):
-    print(data_all.objects.filter(type_name = type_names.objects.get(name = '待用')))
-
+    data = data_all.objects.filter(status = status.objects.get(status = '待用')).values()
+    data_list = []
+    for row in data:
+        data_list.append({
+            'number' :row['number'],
+            'type': type_names.objects.get(id=row['type_name_id']).name,
+            'model':row['model'],
+            'pos':row['pos'],
+            'ip':row['ip'],
+            'depart_name': departments.objects.get(id=row['depart_name_id']).name,
+            'status': status.objects.get(id=row['status_id']).status,
+            'descr':row['descr']
+        })
+    return JsonResponse({'status':'scuess','data':data_list})
 def zcth(request):
     return render(request,'zcth.html')
 

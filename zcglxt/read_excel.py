@@ -6,15 +6,18 @@ class ReadExcel():
         self.depart = sample_data.iloc[1,0][5:]
         head_row = sample_data.notna().sum(axis=1).idxmax()
         self.sheet = pandas.read_excel(self.file_data,header=head_row)
-        
+        self.sheet.fillna("")
 
     def save_to_db(self,db_all,db_depart,db_type,db_status):
         for index,row in self.sheet.iterrows():
             print(row['分类名称'],type(row['分类名称']))
+            if row['资产编号'] == "":
+                break
             typeId = db_type.objects.get_or_create(name=row['分类名称'])
-            departId = db_depart.objects.get_or_create(name=self.depart)        
+            departId = db_depart.objects.get_or_create(name=self.depart)
             try:
-                statusId = db_status.objects.get(name=row['状态'])
+                statusId = db_status.objects.get(status=row['状态'])
+                print(statusId.status)
             except :
                 statusId = db_status.objects.get(id=1)
 

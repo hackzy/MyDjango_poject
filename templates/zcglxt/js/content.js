@@ -1,4 +1,5 @@
 $(document).ready(function(){
+    
     $.ajax({
         type: "GET",
         url: "get_options",
@@ -20,25 +21,31 @@ $(document).ready(function(){
                 type_select.append(types);
             })
             
-        }
-})
-},
-function(){
-$('dataTables-example').DataTable({
-    function(){
-        $.ajax({
-            type: "GET",
-            url: "get_inactive",
-            data: "data",
-            dataType: "dataType",
-            success: function (response) {
-                
-            }
+            
+        }});
+        let table = $('#table').dataTable({
+            language:{url:'static/js/zh.json'},
+            ajax:{
+                url:'get_inactive',
+                dataSrc: 'data',
+            },
+            columns:[
+                {data:'number'},
+                {data:'type'},
+                {data:'model'},
+                {data:'depart_name'},
+                {data:'pos'},
+                {data:'status'},
+                {data:'ip'},
+                {data:'descr'}
+            ]
+            
         });
-    }
-})}
-    
+
+}
+
     );
+
     $('#zcdj').on('submit',function(event){
         event.preventDefault();
         var comment = new FormData(this)
@@ -79,5 +86,16 @@ $('dataTables-example').DataTable({
             })
         }
     });
+    $('tbody').on('click','tr',function(){
+        var number = $(this).find('td:eq(0)').text();
+        var model = $(this).find('td:eq(2)').text();
+        var depart = $(this).find('td:eq(3)').text();
+        var pos = $(this).find('td:eq(4)').text();
+        $('input[name="number"]').val(number);
+        $('input[name="model"]').val(model);
+        $('select[name="depart_name"]').find('option:contains('+depart+')').attr('selected',true);
+        $('input[name="pos"]').val(pos);
+    })
+    
     
 
