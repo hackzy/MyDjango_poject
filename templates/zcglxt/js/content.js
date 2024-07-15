@@ -20,8 +20,6 @@ $(document).ready(function(){
                 var types = $('<option></option>').attr('value',dict.id).text(dict.name);
                 type_select.append(types);
             })
-            
-            
         }});
         let table = $('#table').dataTable({
             language:{url:'static/js/zh.json'},
@@ -48,7 +46,7 @@ $(document).ready(function(){
 
     $('#zcdj').on('submit',function(event){
         event.preventDefault();
-        var comment = new FormData(this)
+        var comment = new FormData(this);
         $.ajax({
             type: "POST",
             url: this.url,
@@ -57,6 +55,21 @@ $(document).ready(function(){
             contentType:false,
             success: function (response) {
                 $('.alert').text('提交成功');
+            }
+        });
+        
+    });
+    $('#zcly').on('submit',function(event){
+        event.preventDefault();
+        var comment = new FormData(this);
+        $.ajax({
+            type: "POST",
+            url: this.url,
+            data: comment,
+            processData:false,
+            contentType:false,
+            success: function (response) {
+                $('.alert').text(response['message']);
             }
         });
         
@@ -93,7 +106,8 @@ $(document).ready(function(){
         var pos = $(this).find('td:eq(4)').text();
         $('input[name="number"]').val(number);
         $('input[name="model"]').val(model);
-        $('select[name="depart_name"]').find('option:contains('+depart+')').attr('selected',true);
+        $('label[name="old_depart"]').text(depart);
+        console.log(depart)
         $('input[name="pos"]').val(pos);
     })
     
