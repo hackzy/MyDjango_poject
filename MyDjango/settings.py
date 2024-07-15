@@ -38,7 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #项目应用
     'zcglxt',
-    'zcglxt.read_excel'
+    'zcglxt.read_excel',
 ]
 
 MIDDLEWARE = [

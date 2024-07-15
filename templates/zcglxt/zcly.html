@@ -31,7 +31,7 @@
                         <div class="alert alert-info">
                             此处可加入说明文档！
                         </div>
-                        <form role="form" class="form-horizontal m-t">
+                        <form role="form" class="form-horizontal m-t" id="zcly">
                             <div class="form-group draggable col-sm-6">
                                 <label class="col-sm-3 control-label">资产编号：</label>
                                 <div class="col-sm-9">
@@ -65,24 +65,18 @@
                             <div class="form-group draggable col-sm-6">
                                 <label class="col-sm-3 control-label">当前机构：</label>
                                 <div class="col-sm-9">
-                                    <select class="form-control" name="depart_name">
-                                        <option>选项 1</option>
-                                        <option>选项 2</option>
-                                        <option>选项 3</option>
-                                        <option>选项 4</option>
-                                    </select>
+                                    <label name="old_depart" class="control-label"></label>
                                 </div>
                             </div>
                             <div class="form-group draggable col-sm-6">
                                 <label class="col-sm-3 control-label">备注：</label>
                                 <div class="col-sm-9">
-                                <textarea id="ccomment" name="comment" class="form-control" required="" aria-required="true"></textarea></div>
+                                <textarea name="descr" class="form-control" aria-required="true"></textarea></div>
                             </div>
-                            <div class="hr-line-dashed"></div>
                             <div class="form-group draggable">
                                 <div class="col-sm-12 col-sm-offset-5">
                                     <button class="btn btn-primary" type="submit">保存内容</button>
-                                    <button class="btn btn-white" type="submit">取消</button>
+                                    <button class="btn btn-white" type="reset">取消</button>
                                 </div>
                             </div>
                         </form>
