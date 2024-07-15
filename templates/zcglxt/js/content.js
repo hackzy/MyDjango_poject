@@ -36,7 +36,8 @@ $(document).ready(function(){
                 {data:'status'},
                 {data:'ip'},
                 {data:'descr'}
-            ]
+            ],
+            
             
         });
 
@@ -54,7 +55,7 @@ $(document).ready(function(){
             processData:false,
             contentType:false,
             success: function (response) {
-                $('.alert').text('提交成功');
+                $('.alert').text(response['message']).show();
             }
         });
         
@@ -69,7 +70,7 @@ $(document).ready(function(){
             processData:false,
             contentType:false,
             success: function (response) {
-                $('.alert').text(response['message']);
+                $('.alert').text(response['message']).show();
             }
         });
         
@@ -92,7 +93,7 @@ $(document).ready(function(){
                 processData:false,
                 contentType:false,
                 success:function(response){
-                    $('.alert').text(response.message);
+                    $('.alert').text(response.message).show();
 
 
                 }
