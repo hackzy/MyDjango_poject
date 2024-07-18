@@ -4,7 +4,8 @@ from django.core.handlers.wsgi import WSGIRequest
 from zcglxt.models import data_all,departments,type_names,status,ObjectDoesNotExist
 from zcglxt.froms import UploadFileForm
 from django.views.decorators.csrf import csrf_exempt
-from zcglxt.read_excel import ReadExcel
+from zcglxt.read_excel import ReadExcel,pandas
+from openpyxl import load_workbook
 # Create your views here.
 
 def index(request):
@@ -74,18 +75,18 @@ def zcly(request:WSGIRequest):
     return render(request,'zcly.html')
 
 def get_inactive(request):
-    data = data_all.objects.filter(status = status.objects.get(status = '待用')).values()
+    data = data_all.objects.filter(status = status.objects.get(status = '待用'))
     data_list = []
     for row in data:
         data_list.append({
-            'number' :row['number'],
-            'type': type_names.objects.get(id=row['type_name_id']).name,
-            'model':row['model'],
-            'pos':row['pos'],
-            'ip':row['ip'],
-            'depart_name': departments.objects.get(id=row['depart_name_id']).name,
-            'status': status.objects.get(id=row['status_id']).status,
-            'descr':row['descr']
+            'number' :row.number,
+            'type': row.type_name.name,
+            'model':row.model,
+            'pos':row.pos,
+            'ip':row.ip,
+            'depart_name': row.depart_name.name,
+            'status': row.status.status,
+            'descr':row.descr
         })
     return JsonResponse({'status':'scuess','data':data_list})
 
@@ -97,3 +98,18 @@ def zctb(request):
 
 def zcbb(request):
     return render(request,'zcbb.html')
+
+def bgdc(request):
+    path = 'templates/zcglxt/test.xlsx'
+    wb = load_workbook(path)
+    ws = wb.active
+    data = data_all.objects.filter(status = status.objects.get(status = "待用"))
+    col = []
+    index = 1
+    for row in data:
+        col.append([index,row.number,row.type_name.name,row.model,row.pos,row.ip,row.descr])
+        index += 1
+    for col_idx,value in enumerate(col,start=1):
+        ws.cell(row=4,column=col_idx,value=value)
+    wb.save()
+    return JsonResponse({"status":"scuess","message":wb})
