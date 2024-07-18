@@ -103,13 +103,16 @@ def bgdc(request):
     path = 'templates/zcglxt/test.xlsx'
     wb = load_workbook(path)
     ws = wb.active
-    data = data_all.objects.filter(status = status.objects.get(status = "待用"))
-    col = []
-    index = 1
+    data = data_all.objects.filter(
+        status = status.objects.get(status = "待用"))
+    index = '=row()-3'
     for row in data:
-        col.append([index,row.number,row.type_name.name,row.model,row.pos,row.ip,row.descr])
-        index += 1
-    for col_idx,value in enumerate(col,start=1):
-        ws.cell(row=4,column=col_idx,value=value)
+        ws.append([index,
+                   row.number,
+                   row.type_name.name,
+                   row.model,
+                   row.pos,
+                   row.ip,
+                   row.descr])
     wb.save()
     return JsonResponse({"status":"scuess","message":wb})
