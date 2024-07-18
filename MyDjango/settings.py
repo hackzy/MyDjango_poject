@@ -122,8 +122,6 @@ STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
    BASE_DIR / 'templates/zcglxt/',
-   
-   
 ]
 
 # Default primary key field type
@@ -138,3 +136,8 @@ sameorigin：允许在相同域名嵌套展示
 allow-from uri：允许指定源的iframe展示，即白名单'''
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
+
+LOGIN_URL = '/login'
+LOGIN_REDIRECT_URL = '/'
+SESSION_COOKIE_AGE = 360
+SESSION_EXPIRE_AT_BROWSER_CLOSE = True

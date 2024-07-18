@@ -1,10 +1,16 @@
 from django.core.exceptions import ObjectDoesNotExist  
 from django.db import models
+from django import forms
+from django.contrib.auth.forms import AuthenticationForm
 import json
 
 # Create your models here.
+class LoginForm(AuthenticationForm):
+    username = forms.CharField(max_length=254)
+    password = forms.CharField()
 
-
+class UploadFileForm(forms.Form):
+    file = forms.FileField()
 
 class Departments(models.Model):
     name = models.CharField(max_length=20,verbose_name='机构名称')
@@ -41,7 +47,6 @@ class Data_All(models.Model):
             )
             super().save(force_insert=force_insert, force_update=force_update, using=using, update_fields=update_fields)  
             return  
-  
         try:  
             old_record = self.__class__.objects.get(pk=self.pk)  
             changes = []  
@@ -52,13 +57,11 @@ class Data_All(models.Model):
                     try:
                         old_value = getattr(old_record,field.name).name
                         new_value = getattr(self,field.name).name
-                        print('t'+ old_value,new_value)
                         if old_value != new_value:  
                             changes.append({'field': field.name, 'old_value': str(old_value), 'new_value': str(new_value)})  
                     except AttributeError :
                         old_value = getattr(old_record,field.name).status
                         new_value = getattr(self,field.name).status
-                        print('a'+ old_value,new_value)
                         if old_value != new_value:  
                             changes.append({'field': field.name, 'old_value': str(old_value), 'new_value': str(new_value)})  
                     continue  # 或者您可以根据需要记录关系字段的变化  
