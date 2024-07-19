@@ -5,9 +5,12 @@ from django.views.decorators.csrf import csrf_exempt
 from openpyxl import load_workbook
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
+import datetime
+import ast
+import json
 
 #=====================================================================
-from zcglxt.models import Data_All,Departments,Type_Names,Status,UploadFileForm,LoginForm,ObjectDoesNotExist
+from zcglxt.models import Data_All,Departments,Type_Names,Status,UploadFileForm,LoginForm,ObjectDoesNotExist,Edit_Log
 from zcglxt.read_excel import ReadExcel
 
 
@@ -86,25 +89,33 @@ def upload_file(request:WSGIRequest):
 def zcly(request:WSGIRequest):
     if request.method == 'POST':
         post = request.POST.dict()
+        depart = Departments.objects.get(id=int(post['depart_name']))
         try:
             number = Data_All.objects.get(number = post['number'])
         except ObjectDoesNotExist:
             return JsonResponse({'status':'error','message':'请输入正确的资产编号！'})
-        depart = Departments.objects.get(id=int(post['depart_name']))
-        statusValue = Status.objects.get(status='在用')
-        if depart.name == '仓库':
-            statusValue = Status.objects.get(status='待用')
+        try:
+            statusValue = Status.objects.get(id=post['status'])
+        except KeyError:
+            if depart.name == '仓库':
+                statusValue = Status.objects.get(status='待用')
+            else:
+                statusValue = Status.objects.get(status="在用")
+        old_depart = number.depart_name.name
+        new_depart = depart.name
         number.depart_name = depart
         number.status = statusValue
         number.pos = post['pos']
         number.descr = post['descr']
+        number.ip = post['ip']
         number.save()
-        return JsonResponse({'status':'scuess','message':'保存成功'})
+        download_link = '/bgdc?old_depart=%s,new_depart=%s' % (old_depart,new_depart)
+        return JsonResponse({'status':'scuess','message':'保存成功,点此<a src=%s>下载报表</a>'%(download_link)})
     return render(request,'zcly.html')
 
 @login_required
 def get_inactive(request):
-    data = Data_All.objects.filter(status = Status.objects.get(status = '待用')).values()
+    data = Data_All.objects.all().values()
     data_list = []
     for row in data:
         data_list.append({
@@ -152,17 +163,49 @@ def bgdc(request:WSGIRequest):
     path = 'templates/zcglxt/test.xlsx'
     wb = load_workbook(path)
     ws = wb.active
-    data = Data_All.objects.filter(
-        depart = Departments.objects.get(name=request))
+    day = datetime.date.today()
+    temp_data = Edit_Log.objects.filter(edit_date__gte=day)
+    new_depart_edit = []
+    old_depart_edit = []
+    old_depart = request.GET['old_depart']
+    new_depart = request.GET['new_depart']
+    for change in temp_data:
+        
+        lis = ast.literal_eval(change.edit_changes)
+        for temp in lis:
+            if temp['field'] == 'depart_name':
+                if temp['old_value'] == old_depart and temp['new_value'] == new_depart:
+                    new_depart_edit.append({'number':change.edit_number,'depart':temp['new_value'],'status':'新增'})
+                    old_depart_edit.append({'number':change.edit_number,'depart':temp['old_value'],'status':'删除'})
+    path = "./test.xlsx"
+    wb = load_workbook(path)
+    ws = wb.active
+    data = Data_All.objects.filter(depart_name = Departments.objects.get(name = old_depart))
+    edit_data = []
+    for edit in old_depart_edit:
+        old_edit = Data_All.objects.get(number = edit['number'])
+        old_edit.descr = edit['status']
+        edit_data.append(old_edit)
     index = '=row()-3'
     for value in data:
         ws.append([index,
-                   value.number,
-                   value.type_name.name,
-                   value.model,
-                   value.pos,
-                   value.ip,
-                   value.descr])
+                value.number,
+                value.type_name.name,
+                value.model,
+                value.pos,
+                value.ip,
+                value.descr])
+    ws.insert_rows(ws.max_row,2)
+    for value in edit_data:
+        ws.append(
+            [   0,
+                value.number,
+                value.type_name.name,
+                value.model,
+                value.pos,
+                value.ip,
+                value.descr]
+        )
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename=test.xlsx'
     wb.save(response)

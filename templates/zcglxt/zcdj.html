@@ -29,7 +29,7 @@
                         <h5>资产登记</h5>
                     </div>
                     <div class="ibox-content">
-                        <div class="alert alert-info">
+                        <div class="alert alert-info" style="display:none">
                             此处可加入说明文档！
                         </div>
                         <form role="form" class="form-horizontal m-t" id="zcdj">
@@ -118,10 +118,11 @@
                 </div>
                 <div class="ibox-content">
                     <div id="file-pretty">
-                        <div class="form-group">
+                        <from class="form-group">
+                            {% csrf_token %} 
                             <label class="font-noraml">文件选择（单选）</label>
                             <input type="file" class="form-control" id="file_upload">
-                        </div>
+                        </form>
                         
                     </div>
                 </div>

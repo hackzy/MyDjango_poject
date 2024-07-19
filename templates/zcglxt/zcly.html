@@ -25,7 +25,7 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>资产领用</h5>
+                        <h5>资产修改</h5>
                     </div>
                     <div class="ibox-content">
                         <div class="alert alert-info" style="display:none">
@@ -36,14 +36,14 @@
                             <div class="form-group draggable col-sm-6">
                                 <label class="col-sm-3 control-label">资产编号：</label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="number" class="form-control" placeholder="请输入文本">
+                                    <input type="text" name="number" class="form-control" placeholder="编号">
                                     <!--span class="help-block m-b-none">说明文字</span-->
                                 </div>
                             </div>
                             <div class="form-group draggable col-sm-6">
-                                <label class="col-sm-3 control-label">领用机构：</label>
+                                <label class="col-sm-3 control-label">使用机构：</label>
                                 <div class="col-sm-9">
-                                    <select class="form-control" name="depart_name">
+                                    <select class="form-control" id= "depart_name" name="depart_name">
                                         <option>选项 1</option>
                                         <option>选项 2</option>
                                         <option>选项 3</option>
@@ -54,20 +54,30 @@
                             <div class="form-group draggable col-sm-6">
                                 <label class="col-sm-3 control-label">规格型号：</label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="model" class="form-control" placeholder="请输入文本">
+                                    <input type="text" class="form-control model" disabled="true">
                                 </div>
                             </div>
                             <div class="form-group draggable col-sm-6">
-                                <label class="col-sm-3 control-label">资产物理位置：</label>
+                                <label class="col-sm-3 control-label">摆放位置：</label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="pos" class="form-control" placeholder="请输入文本">
+                                    <input type="text" name="pos" class="form-control" placeholder="设备物理位置">
                                 </div>
                             </div>
                             <div class="form-group draggable col-sm-6">
-                                <label class="col-sm-3 control-label">当前机构：</label>
+                                <label class="col-sm-3 control-label">分类名称：</label>
                                 <div class="col-sm-9">
-                                    <label name="old_depart" class="control-label"></label>
+                                    <input class="form-control type_name" type="text" disabled="true">
                                 </div>
+                            </div>
+                            <div class="form-group draggable col-sm-6">
+                                <label class="col-sm-3 control-label">IP地址：</label>
+                                <div class="col-sm-9">
+                                    <input class="form-control ip" type="text" name="ip" placeholder="设备IP">
+                                </div>
+                            </div>
+                            <div class="form-group draggable col-sm-6 checkbox-inline">
+                                <label class="col-md-offset-4 control-label">
+                                    <input type="checkbox" name="status" value="3">申请报废</label>
                             </div>
                             <div class="form-group draggable col-sm-6">
                                 <label class="col-sm-3 control-label">备注：</label>
@@ -91,7 +101,7 @@
             <div class="col-sm-12">
                 <div class="ibox float-e-margins">
                     <div class="ibox-title">
-                        <h5>待用资产</h5>
+                        <h5>所有资产</h5>
                     </div>
                     <div class="ibox-content">
 
