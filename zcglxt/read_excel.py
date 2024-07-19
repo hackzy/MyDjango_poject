@@ -6,7 +6,7 @@ class ReadExcel():
         self.depart = sample_data.iloc[1,0][5:]
         head_row = sample_data.notna().sum(axis=1).idxmax()
         self.sheet = pandas.read_excel(self.file_data,header=head_row)
-        self.sheet.fillna("")
+        self.sheet = self.sheet.fillna("")
 
     def save_to_db(self,db_all,db_depart,db_type,db_status):
         for index,row in self.sheet.iterrows():

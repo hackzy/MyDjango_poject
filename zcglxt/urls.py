@@ -1,9 +1,10 @@
 from django.contrib import admin
 from django.urls import path,include
-from zcglxt.views import index,index_v1,zcdj,zcbb,zcly,zctb,zcth,get_options,upload_file,get_inactive
+from zcglxt.views import index,index_v1,zcdj,zcbb,zcly,zctb,zcth,get_options,upload_file,get_inactive,bgdc,login_auth,logout_auth
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    
+    #path('admin/', admin.site.urls),
+    path('login',login_auth),
+    path('logout',logout_auth),
     path('', index),
     path('index_v1',index_v1),
     path('zcdj',zcdj),
@@ -14,4 +15,5 @@ urlpatterns = [
     path('get_inactive',get_inactive),
     path('zctb',zctb),
     path('zcth',zcth),
+    path('bgdc',bgdc),
 ]

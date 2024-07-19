@@ -21,7 +21,7 @@ $(document).ready(function(){
                 type_select.append(types);
             })
         }});
-        let table = $('#table').dataTable({
+        $('#table').dataTable({
             language:{url:'static/js/zh.json'},
             ajax:{
                 url:'get_inactive',
@@ -37,9 +37,9 @@ $(document).ready(function(){
                 {data:'ip'},
                 {data:'descr'}
             ],
-            
-            
+
         });
+        
 
 }
 
@@ -75,21 +75,6 @@ $(document).ready(function(){
         });
         
     });
-    $('#zcly').on('submit',function(event){
-        event.preventDefault();
-        var comment = new FormData(this);
-        $.ajax({
-            type: "POST",
-            url: this.url,
-            data: comment,
-            processData:false,
-            contentType:false,
-            success: function (response) {
-                $('.alert').text(response['message']);
-            }
-        });
-        
-    });
     $('#file_upload').on('change',function(event){
         const file = event.target.files[0];
         if (file){
@@ -99,8 +84,8 @@ $(document).ready(function(){
                 return
             }
             var files = new FormData();
-            files.append('file',this.files[0]);
             files.append('csrfmifflewaretoken','{{ csrf_token }}');
+            files.append('file',this.files[0]);
             $.ajax({
                 type: "POST",
                 url:'file_upload',
@@ -120,12 +105,18 @@ $(document).ready(function(){
         var model = $(this).find('td:eq(2)').text();
         var depart = $(this).find('td:eq(3)').text();
         var pos = $(this).find('td:eq(4)').text();
+        var ip = $(this).find('td:eq(6)').text();
+        var descr = $(this).find('td:eq(7)').text();
+        var type = $(this).find('td:eq(1)').text();
         $('input[name="number"]').val(number);
-        $('input[name="model"]').val(model);
-        $('label[name="old_depart"]').text(depart);
-        console.log(depart)
+        $('.model').val(model);
+        $('.type_name').val(type);
         $('input[name="pos"]').val(pos);
+        $('input[name="ip"]').val(ip);
+        $('input[name="dedcr"]').val(descr);
+        $('#depart_name').find('option:contains('+ depart +')').attr("selected",true);
     })
     
     
 
+input
