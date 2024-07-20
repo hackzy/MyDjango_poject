@@ -4,4 +4,5 @@
 ~$信息科技条线设备档案表2024.xlsx
 信息科技条线设备档案表2024.xlsx
 *.xlsx
-*/my_venv/*
+/my_venv/Lib/site-packages/
+/my_venv/

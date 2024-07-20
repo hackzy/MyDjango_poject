@@ -70,7 +70,8 @@ $(document).ready(function(){
             processData:false,
             contentType:false,
             success: function (response) {
-                $('.alert').text(response['message']).show();
+                var alert = $('.alert')
+                alert.append(response['message'] + response['link']).show();
             }
         });
         
@@ -117,6 +118,3 @@ $(document).ready(function(){
         $('#depart_name').find('option:contains('+ depart +')').attr("selected",true);
     })
     
-    
-
-input

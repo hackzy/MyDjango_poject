@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     #项目应用
     'zcglxt',
     'zcglxt.read_excel',
+    
 ]
 
 MIDDLEWARE = [
@@ -139,7 +140,7 @@ X_FRAME_OPTIONS = 'SAMEORIGIN'
 
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
-SESSION_COOKIE_AGE = 360
+SESSION_COOKIE_AGE = 3600
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
 USE_TZ = True

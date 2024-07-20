@@ -1,17 +1,15 @@
 from django.shortcuts import render,redirect
 from django.http import JsonResponse,HttpResponse
 from django.core.handlers.wsgi import WSGIRequest
-from django.views.decorators.csrf import csrf_exempt
 from openpyxl import load_workbook
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
 import datetime
-import ast
-import json
 
 #=====================================================================
 from zcglxt.models import Data_All,Departments,Type_Names,Status,UploadFileForm,LoginForm,ObjectDoesNotExist,Edit_Log
 from zcglxt.read_excel import ReadExcel
+from zcglxt.export_excel import ExportExcel
 
 
 # Create your views here.
@@ -109,8 +107,8 @@ def zcly(request:WSGIRequest):
         number.descr = post['descr']
         number.ip = post['ip']
         number.save()
-        download_link = '/bgdc?old_depart=%s,new_depart=%s' % (old_depart,new_depart)
-        return JsonResponse({'status':'scuess','message':'保存成功,点此<a src=%s>下载报表</a>'%(download_link)})
+        download_link = '"/bgdc?old_depart=%s&new_depart=%s"' % (old_depart,new_depart)
+        return JsonResponse({'message':'保存成功,点此','link':'<a href=%s>下载报表</a>'%(download_link)},status=200)
     return render(request,'zcly.html')
 
 @login_required
@@ -162,51 +160,16 @@ def zcbb(request):
 def bgdc(request:WSGIRequest):
     path = 'templates/zcglxt/test.xlsx'
     wb = load_workbook(path)
-    ws = wb.active
+    export = ExportExcel(wb)
     day = datetime.date.today()
-    temp_data = Edit_Log.objects.filter(edit_date__gte=day)
-    new_depart_edit = []
-    old_depart_edit = []
     old_depart = request.GET['old_depart']
     new_depart = request.GET['new_depart']
-    for change in temp_data:
-        
-        lis = ast.literal_eval(change.edit_changes)
-        for temp in lis:
-            if temp['field'] == 'depart_name':
-                if temp['old_value'] == old_depart and temp['new_value'] == new_depart:
-                    new_depart_edit.append({'number':change.edit_number,'depart':temp['new_value'],'status':'新增'})
-                    old_depart_edit.append({'number':change.edit_number,'depart':temp['old_value'],'status':'删除'})
-    path = "./test.xlsx"
-    wb = load_workbook(path)
-    ws = wb.active
-    data = Data_All.objects.filter(depart_name = Departments.objects.get(name = old_depart))
-    edit_data = []
-    for edit in old_depart_edit:
-        old_edit = Data_All.objects.get(number = edit['number'])
-        old_edit.descr = edit['status']
-        edit_data.append(old_edit)
-    index = '=row()-3'
-    for value in data:
-        ws.append([index,
-                value.number,
-                value.type_name.name,
-                value.model,
-                value.pos,
-                value.ip,
-                value.descr])
-    ws.insert_rows(ws.max_row,2)
-    for value in edit_data:
-        ws.append(
-            [   0,
-                value.number,
-                value.type_name.name,
-                value.model,
-                value.pos,
-                value.ip,
-                value.descr]
-        )
+    if old_depart != '仓库':
+        export.wb.copy_worksheet(wb.worksheets[0])
+        export.set_worksheet(day,0,old_depart)
+    export.set_worksheet(day,1,new_depart)
+    
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename=test.xlsx'
-    wb.save(response)
+    export.wb.save(response)
     return response

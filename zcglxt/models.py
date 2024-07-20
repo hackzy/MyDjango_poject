@@ -58,7 +58,7 @@ class Data_All(models.Model):
                         old_value = getattr(old_record,field.name).name
                         new_value = getattr(self,field.name).name
                         if old_value != new_value:  
-                            changes.append({'field': field.name, 'old_value': str(old_value), 'new_value': str(new_value)})  
+                            changes.append({'field': field.name, 'old_value': str(old_value), 'new_value': str(new_value)})
                     except AttributeError :
                         old_value = getattr(old_record,field.name).status
                         new_value = getattr(self,field.name).status
@@ -68,12 +68,15 @@ class Data_All(models.Model):
                 old_value = getattr(old_record, field.name)  
                 new_value = getattr(self, field.name)  
                 if old_value != new_value:  
-                    changes.append({'field': field.name, 'old_value': str(old_value), 'new_value': str(new_value)})  
+                    changes.append({'field': field.name, 'old_value': str(old_value), 'new_value': str(new_value)})
+
             if changes:  
                 # 记录更改日志  
                 Edit_Log.objects.create(  
                     edit_models = "变更",
-                    edit_number = self.number,  
+                    edit_number = self.number,
+                    old_depart = old_record.depart_name.name,
+                    new_depart = self.depart_name.name,
                     edit_changes=json.dumps(changes,ensure_ascii=False)  
                 )  
         except ObjectDoesNotExist:  
@@ -87,6 +90,8 @@ class Edit_Log(models.Model):
     edit_models = models.CharField(verbose_name="更改类型", max_length=12)
     edit_number = models.CharField(max_length=18,verbose_name="资产编号")
     edit_changes = models.TextField(verbose_name="变更值")
+    old_depart = models.CharField(verbose_name="原部门",max_length=18)
+    new_depart = models.CharField(verbose_name="新部门",max_length=18)
     edit_date = models.DateTimeField(auto_now=True,verbose_name="日期")
     def __str__(self) -> str:
             return self.edit_number
