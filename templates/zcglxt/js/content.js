@@ -1,5 +1,4 @@
 $(document).ready(function(){
-    
     $.ajax({
         type: "GET",
         url: "get_options",
@@ -20,101 +19,110 @@ $(document).ready(function(){
                 var types = $('<option></option>').attr('value',dict.id).text(dict.name);
                 type_select.append(types);
             })
-        }});
-        $('#table').dataTable({
-            language:{url:'static/js/zh.json'},
-            ajax:{
-                url:'get_inactive',
-                dataSrc: 'data',
-            },
-            columns:[
-                {data:'number'},
-                {data:'type'},
-                {data:'model'},
-                {data:'depart_name'},
-                {data:'pos'},
-                {data:'status'},
-                {data:'ip'},
-                {data:'descr'}
-            ],
-
-        });
-        
-
-}
-
-    );
-
-    $('#zcdj').on('submit',function(event){
-        event.preventDefault();
-        var comment = new FormData(this);
-        $.ajax({
-            type: "POST",
-            url: this.url,
-            data: comment,
-            processData:false,
-            contentType:false,
-            success: function (response) {
-                $('.alert').text(response['message']).show();
-            }
-        });
-        
-    });
-    $('#zcly').on('submit',function(event){
-        event.preventDefault();
-        var comment = new FormData(this);
-        $.ajax({
-            type: "POST",
-            url: this.url,
-            data: comment,
-            processData:false,
-            contentType:false,
-            success: function (response) {
-                var alert = $('.alert')
-                alert.append(response['message'] + response['link']).show();
-            }
-        });
-        
-    });
-    $('#file_upload').on('change',function(event){
-        const file = event.target.files[0];
-        if (file){
-            const fileType = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','application/vnd.ms-excel']
-            if (!(fileType.includes(file.type))){
-                $('.alert').text('请上传Excel文件！');
-                return
-            }
-            var files = new FormData();
-            files.append('csrfmifflewaretoken','{{ csrf_token }}');
-            files.append('file',this.files[0]);
-            $.ajax({
-                type: "POST",
-                url:'file_upload',
-                data:files,
-                processData:false,
-                contentType:false,
-                success:function(response){
-                    $('.alert').text(response.message).show();
-
-
-                }
-            })
         }
     });
-    $('tbody').on('click','tr',function(){
-        var number = $(this).find('td:eq(0)').text();
-        var model = $(this).find('td:eq(2)').text();
-        var depart = $(this).find('td:eq(3)').text();
-        var pos = $(this).find('td:eq(4)').text();
-        var ip = $(this).find('td:eq(6)').text();
-        var descr = $(this).find('td:eq(7)').text();
-        var type = $(this).find('td:eq(1)').text();
-        $('input[name="number"]').val(number);
-        $('.model').val(model);
-        $('.type_name').val(type);
-        $('input[name="pos"]').val(pos);
-        $('input[name="ip"]').val(ip);
-        $('input[name="dedcr"]').val(descr);
-        $('#depart_name').find('option:contains('+ depart +')').attr("selected",true);
-    })
+    $('#table').dataTable({
+        language:{url:'static/js/zh.json'},
+        ajax:{
+            url:'get_inactive',
+            dataSrc: 'data',
+        },
+        columns:[
+            {data:'number'},
+            {data:'type'},
+            {data:'model'},
+            {data:'depart_name'},
+            {data:'pos'},
+            {data:'status'},
+            {data:'ip'},
+            {data:'descr'}
+        ],
+    });
+});
+$('#zcdj').on('submit',function(event){
+    event.preventDefault();
+    var comment = new FormData(this);
+    $.ajax({
+        type: "POST",
+        url: this.url,
+        data: comment,
+        processData:false,
+        contentType:false,
+        success: function (response) {
+            $('.alert').text(response['message']).show();
+        }
+    });
     
+});
+$('#zcly').on('submit',function(event){
+    event.preventDefault();
+    var comment = new FormData(this);
+    $.ajax({
+        type: "POST",
+        url: this.url,
+        data: comment,
+        processData:false,
+        contentType:false,
+        success: function (response) {
+            var alert = $('.alert')
+            alert.append(response['message'] + response['link']).show();
+        }
+    });
+});
+$('#file_upload').on('change',function(event){
+    const file = event.target.files[0];
+    if (file){
+        const fileType = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','application/vnd.ms-excel']
+        if (!(fileType.includes(file.type))){
+            $('.alert').text('请上传Excel文件！');
+            return
+        }
+        var files = new FormData();
+        files.append('csrfmifflewaretoken','{{ csrf_token }}');
+        files.append('file',this.files[0]);
+        $.ajax({
+            type: "POST",
+            url:'file_upload',
+            data:files,
+            processData:false,
+            contentType:false,
+            success:function(response){
+                $('.alert').text(response.message).show();
+
+
+            }
+        })
+    }
+});
+$('tbody').on('click','tr',function(){
+    var number = $(this).find('td:eq(0)').text();
+    var model = $(this).find('td:eq(2)').text();
+    var depart = $(this).find('td:eq(3)').text();
+    var pos = $(this).find('td:eq(4)').text();
+    var ip = $(this).find('td:eq(6)').text();
+    var descr = $(this).find('td:eq(7)').text();
+    var type = $(this).find('td:eq(1)').text();
+    $('input[name="number"]').val(number);
+    $('.model').val(model);
+    $('.type_name').val(type);
+    $('input[name="pos"]').val(pos);
+    $('input[name="ip"]').val(ip);
+    $('input[name="dedcr"]').val(descr);
+    $('#depart_name').find('option:contains('+ depart +')').attr("selected",true);
+});
+$("#number").on('blur',function(){
+    var table = $('#table').DataTable();
+    var indata = this.value;
+    table.rows().every(function(){
+        var data = this.data();
+        if(data['number'].includes(indata)){
+            $('.model').val(data['model']);
+            $('.type_name').val(data['type']);
+            $('input[name="pos"]').val(data['pos']);
+            $('input[name="ip"]').val(data['ip']);
+            $('input[name="descr"]').val(data['descr']);
+            $('#depart_name').find('option:contains('+ data['depart_name'] +')').attr("selected",true);
+            return false
+        }
+    });
+})
