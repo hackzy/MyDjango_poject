@@ -74,11 +74,12 @@ $('#file_upload').on('change',function(event){
     if (file){
         const fileType = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','application/vnd.ms-excel']
         if (!(fileType.includes(file.type))){
-            $('.alert').text('请上传Excel文件！');
+            $('.alert').text('请上传Excel文件！').show();
             return
         }
         var files = new FormData();
-        files.append('csrfmifflewaretoken','{{ csrf_token }}');
+        var csrfmiddlewaretoken = $('[name="csrfmiddlewaretoken"]').val();
+        files.append('csrfmiddlewaretoken',csrfmiddlewaretoken);
         files.append('file',this.files[0]);
         $.ajax({
             type: "POST",
@@ -88,8 +89,6 @@ $('#file_upload').on('change',function(event){
             contentType:false,
             success:function(response){
                 $('.alert').text(response.message).show();
-
-
             }
         })
     }
@@ -113,6 +112,9 @@ $('tbody').on('click','tr',function(){
 $("#number").on('blur',function(){
     var table = $('#table').DataTable();
     var indata = this.value;
+    if (indata == ""){
+        return false
+    }
     table.rows().every(function(){
         var data = this.data();
         if(data['number'].includes(indata)){

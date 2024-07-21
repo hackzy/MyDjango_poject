@@ -4,14 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-
-    <title> hAdmin- 主页</title>
-
-
-    <!--[if lt IE 9]>
-    <meta http-equiv="refresh" content="0;ie.html" />
-    <![endif]-->
+    <title> 主页</title>
     {% load static %}
     <link rel="shortcut icon" href="favicon.ico"> 
     <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
@@ -34,8 +27,8 @@
                             <a data-toggle="dropdown" class="dropdown-toggle" href="#">
                                 <span class="clear">
                                     <span class="block m-t-xs" style="font-size:20px;">
-                                        <i class="fa fa-area-chart"></i>
-                                        <strong class="font-bold">信科条线<br>资产管理系统</strong>
+                                        <i class="fa fa-desktop"></i>
+                                        <strong class="font-bold">信科条线<br>固定资产管理系统</strong>
                                     </span>
                                 </span>
                             </a>
@@ -60,7 +53,7 @@
                     </li>
                     <li>
                         <a href="zcly" class="J_menuItem">
-                            <i class="fa fa-bell"></i>
+                            <i class="fa fa-group"> </i>
                             <span class="nav-label">资产调整</span>
                         </a>
                     </li>
@@ -105,7 +98,6 @@
 
     <!-- 自定义js -->
     <script src="{% static 'js/hAdmin.js'%}"></script>
-    <script type="text/javascript" src="{% static 'js/index.js'%}"></script>
 
     <!-- 第三方插件 -->
     <script src="{% static 'js/plugins/pace/pace.min.js'%}"></script>

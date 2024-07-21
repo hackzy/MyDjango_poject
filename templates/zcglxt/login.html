@@ -50,16 +50,19 @@
                 type:'POST',
                 data:$(this).serialize(),
                 success:function(response){
+                    if (window.top !== window.self){
+                        window.top.location.href = '/'
+                    }
+                    else{
                         window.location.href = '/';
+                    } 
                 },
                 error:function(xhr){
                     $('.alert').text(xhr.responseJSON.error).show()
                 }
             })
         });
-        if (window.top !== window.self){
-            window.top.location.href = window.location.href
-        };
+        
     </script>
     
 

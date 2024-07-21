@@ -71,9 +71,9 @@ $(document).ready(function () {
     $('.nav-close').click(NavToggle);
 
     //ios浏览器兼容性处理
-    if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
-        $('#content-main').css('overflow-y', 'auto');
-    }
+    //if (/(iPhone|iPad|iPod|iOS)/i.test(navigator.userAgent)) {
+    //    $('#content-main').css('overflow-y', 'auto');
+    //}
 
 });
 
@@ -83,10 +83,15 @@ $(window).bind("load resize", function () {
         $('.navbar-static-side').fadeIn();
     }
 });
-
+$(".J_menuItem").on('click',function(e){
+	e.preventDefault();
+	var url = $(this).attr('href');
+	$("#J_iframe").attr('src',url);
+	return false;
+});
 function NavToggle() {
     $('.navbar-minimalize').trigger('click');
-}
+};
 
 function SmoothlyMenu() {
     if (!$('body').hasClass('mini-navbar')) {

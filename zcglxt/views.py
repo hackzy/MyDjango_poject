@@ -5,7 +5,6 @@ from openpyxl import load_workbook
 from django.contrib.auth import authenticate, login,logout
 from django.contrib.auth.decorators import login_required
 import datetime
-
 #=====================================================================
 from zcglxt.models import Data_All,Departments,Type_Names,Status,UploadFileForm,LoginForm,ObjectDoesNotExist,Edit_Log
 from zcglxt.read_excel import ReadExcel
@@ -20,7 +19,6 @@ def login_auth(request:WSGIRequest):
             username = form.cleaned_data.get('username')
             password = form.cleaned_data.get('password')
             user = authenticate(request=request,username=username,password=password)
-            print(user)
             if user is not None:
                 login(request,user)
                 return JsonResponse({'redirect_url':'/'},status=200)
@@ -47,13 +45,16 @@ def index_v1(request):
 def zcdj(request:WSGIRequest):
     if request.method == 'POST':
         post = request.POST.dict()
-        typeName = Type_Names.objects.get(id=int(post['type_name']))
-        departName = Departments.objects.get(id=int(post['depart_name']))
-        statusValue = Status.objects.get(id=int(post['status']))
-        db = Data_All(number = post['number'],type_name = typeName, \
-                      model = post['model'],depart_name = departName, \
-                        pos = post['pos'],ip = post['ip'],descr = post['descr'], \
-                        status = statusValue    )
+        try:
+            typeName = Type_Names.objects.get(id=int(post['type_name']))
+            departName = Departments.objects.get(id=int(post['depart_name']))
+            statusValue = Status.objects.get(id=int(post['status']))
+            db = Data_All(number = post['number'],type_name = typeName, \
+                        model = post['model'],depart_name = departName, \
+                            pos = post['pos'],ip = post['ip'],descr = post['descr'], \
+                            status = statusValue    )
+        except ObjectDoesNotExist as error:
+            return JsonResponse({'status':'error','message':str(error)})
         db.save()
         return JsonResponse({'status':'scuess','message':'登记成功'})
     return render(request,'zcdj.html',status=200)
@@ -68,7 +69,6 @@ def get_options(request):
 def upload_file(request:WSGIRequest):
     if request.method == 'POST':
         form = UploadFileForm(request.POST,request.FILES)
-
         if form.is_valid():
             file = form.files['file']
             try:
@@ -87,18 +87,21 @@ def upload_file(request:WSGIRequest):
 def zcly(request:WSGIRequest):
     if request.method == 'POST':
         post = request.POST.dict()
-        depart = Departments.objects.get(id=int(post['depart_name']))
         try:
-            number = Data_All.objects.get(number = post['number'])
-        except ObjectDoesNotExist:
-            return JsonResponse({'status':'error','message':'请输入正确的资产编号！'})
-        try:
-            statusValue = Status.objects.get(id=post['status'])
-        except KeyError:
-            if depart.name == '仓库':
-                statusValue = Status.objects.get(status='待用')
-            else:
-                statusValue = Status.objects.get(status="在用")
+            depart = Departments.objects.get(id=int(post['depart_name']))
+            try:
+                number = Data_All.objects.get(number = post['number'])
+            except ObjectDoesNotExist:
+                return JsonResponse({'status':'error','message':'请输入正确的资产编号！'})
+            try:
+                statusValue = Status.objects.get(id=post['status'])
+            except KeyError:
+                if depart.name == '仓库':
+                    statusValue = Status.objects.get(status='待用')
+                else:
+                    statusValue = Status.objects.get(status="在用")
+        except ObjectDoesNotExist as error:
+            return JsonResponse({'status':'error','message':str(error)})
         old_depart = number.depart_name.name
         new_depart = depart.name
         number.depart_name = depart
@@ -107,7 +110,9 @@ def zcly(request:WSGIRequest):
         number.descr = post['descr']
         number.ip = post['ip']
         number.save()
-        download_link = '"/bgdc?old_depart=%s&new_depart=%s"' % (old_depart,new_depart)
+        start_date = datetime.date.today()
+        end_date = datetime.datetime.now()
+        download_link = '"/bgdc?old_depart=%s&new_depart=%s&start_date=%s&end_date=%s"' % (old_depart,new_depart,start_date,end_date)
         return JsonResponse({'message':'保存成功,点此','link':'<a href=%s>下载报表</a>'%(download_link)},status=200)
     return render(request,'zcly.html')
 
@@ -115,17 +120,20 @@ def zcly(request:WSGIRequest):
 def get_inactive(request):
     data = Data_All.objects.all().values()
     data_list = []
-    for row in data:
-        data_list.append({
-            'number' :row['number'],
-            'type': Type_Names.objects.get(id=row['type_name_id']).name,
-            'model':row['model'],
-            'pos':row['pos'],
-            'ip':row['ip'],
-            'depart_name': Departments.objects.get(id=row['depart_name_id']).name,
-            'status': Status.objects.get(id=row['status_id']).status,
-            'descr':row['descr']
-        })
+    try:
+        for row in data:
+            data_list.append({
+                'number' :row['number'],
+                'type': Type_Names.objects.get(id=row['type_name_id']).name,
+                'model':row['model'],
+                'pos':row['pos'],
+                'ip':row['ip'],
+                'depart_name': Departments.objects.get(id=row['depart_name_id']).name,
+                'status': Status.objects.get(id=row['status_id']).status,
+                'descr':row['descr']
+            })
+    except ObjectDoesNotExist as error:
+        return JsonResponse({'status':'error','message':str(error)})
     return JsonResponse({'status':'scuess','data':data_list})
 
 @login_required
@@ -161,14 +169,14 @@ def bgdc(request:WSGIRequest):
     path = 'templates/zcglxt/test.xlsx'
     wb = load_workbook(path)
     export = ExportExcel(wb)
-    day = datetime.date.today()
+    start_date = request.GET['start_date']
+    end_date = request.GET['end_date']
     old_depart = request.GET['old_depart']
     new_depart = request.GET['new_depart']
     if old_depart != '仓库':
         export.wb.copy_worksheet(wb.worksheets[0])
-        export.set_worksheet(day,0,old_depart)
-    export.set_worksheet(day,1,new_depart)
-    
+        export.set_worksheet(start_date,end_date,0,old_depart)
+    export.set_worksheet(start_date,end_date,1,new_depart)
     response = HttpResponse(content_type='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet')
     response['Content-Disposition'] = 'attachment; filename=test.xlsx'
     export.wb.save(response)
