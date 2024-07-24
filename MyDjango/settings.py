@@ -25,7 +25,7 @@ SECRET_KEY = 'django-insecure-jk9xvhp%j2q*n0^+jm%i5q($so@u8*p1nizl4t$v^wt4fo3k4t
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['localhost','127.0.0.1','10.168.1.3']
 
 CSRF_TRUSTED_ORIGINS = [
     'http://127.0.0.1:8001',
@@ -143,9 +143,22 @@ sameorigin：允许在相同域名嵌套展示
 allow-from uri：允许指定源的iframe展示，即白名单'''
 
 X_FRAME_OPTIONS = 'SAMEORIGIN'
-
+SECURE_CROSS_ORIGIN_OPENER_POLICY = 'None'
 LOGIN_URL = '/login'
 LOGIN_REDIRECT_URL = '/'
 SESSION_COOKIE_AGE = 3600
 SESSION_EXPIRE_AT_BROWSER_CLOSE = True
 
+LOGGING = {
+    "version": 1,
+    "disable_existing_loggers": False,
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+        },
+    },
+    "root": {
+        "handlers": ["console"],
+        "level": "WARNING",
+    },
+}

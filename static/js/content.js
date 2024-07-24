@@ -31,7 +31,6 @@ $(document).ready(function(){
     var day = String(today.getDate()).padStart(2, '0');
     // 组合成YYYY-MM-DD格式
     var todayString = `${year}-${month}-${day}`;
-    console.log(todayString);
     $('#start_date').val(todayString);
     $('#end_date').val(todayString);
 
