@@ -30,7 +30,7 @@
                         <h5>资产登记</h5>
                     </div>
                     <div class="ibox-content">
-                        <div class="alert alert-info" style="display:none">
+                        <div id="djAlert" class="alert alert-info" style="display:none">
                             此处可加入说明文档！
                         </div>
                         <form role="form" class="form-horizontal m-t" id="zcdj">
@@ -114,13 +114,17 @@
             <div class="ibox ">
                 <div class="ibox-title">
                     <h5>批量导入</h5>
-                    <small><input type="button" class="btn btn-primary pull-right" value="模板下载" src=""></small>
+                    
                 </div>
                 <div class="ibox-content">
+                    <div id="uploadAlert" class="alert alert-info" style="display:none">
+                        此处可加入说明文档！
+                    </div>
                     <div id="file-pretty">
                         <from class="form-group">
                             {% csrf_token %} 
                             <label class="font-noraml">文件选择（单选）</label>
+                            <small><input type="button" class="btn btn-primary pull-right m-1" value="模板下载" src=""></small>
                             <input type="file" class="form-control" id="file_upload">
                         </form>
                         

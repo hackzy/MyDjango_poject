@@ -10,14 +10,12 @@ class ReadExcel():
 
     def save_to_db(self,db_all,db_depart,db_type,db_status):
         for index,row in self.sheet.iterrows():
-            print(row['分类名称'],type(row['分类名称']))
             if row['资产编号'] == "":
                 break
             typeId = db_type.objects.get_or_create(name=row['分类名称'])
             departId = db_depart.objects.get_or_create(name=self.depart)
             try:
                 statusId = db_status.objects.get(status=row['状态'])
-                print(statusId.status)
             except :
                 statusId = db_status.objects.get(id=1)
 

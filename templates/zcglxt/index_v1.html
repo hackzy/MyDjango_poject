@@ -4,28 +4,33 @@
 <meta charset="UTF-8">
 <title>jQuery Clock</title>
 {%load static%}
-<script src="{% static 'js/jquery.min.js'%}"></script>
-<script>
-$(document).ready(function(){
-    function updateClock(){
-        var now = new Date();
-        var seconds = now.getSeconds();
-        var minutes = now.getMinutes();
-        var hours = now.getHours();
-        hours = hours;
-        hours = hours < 10 ? "0" + hours : hours;
-        minutes = minutes < 10 ? "0" + minutes : minutes;
-        seconds = seconds < 10 ? "0" + seconds : seconds;
-        var time = hours + ":" + minutes + ":" + seconds;
-        $("#clock").text(time);
-    }
- 
-    setInterval(updateClock, 1000);
-    updateClock();
-});
-</script>
+<link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+
 </head>
 <body>
-<div class="center" id="clock"></div>
+<div class="text-center">
+    <span id="clock"></span>
+</div>
+<script src="{% static 'js/jquery.min.js'%}"></script>
+<script src="{% static 'js/bootstrap.js' %}"></script>
+<script>
+    $(document).ready(function(){
+        function updateClock(){
+            var now = new Date();
+            var seconds = now.getSeconds();
+            var minutes = now.getMinutes();
+            var hours = now.getHours();
+            hours = hours;
+            hours = hours < 10 ? "0" + hours : hours;
+            minutes = minutes < 10 ? "0" + minutes : minutes;
+            seconds = seconds < 10 ? "0" + seconds : seconds;
+            var time = hours + ":" + minutes + ":" + seconds;
+            $("#clock").text(time);
+        }
+     
+        setInterval(updateClock, 1000);
+        updateClock();
+    });
+    </script>
 </body>
 </html>

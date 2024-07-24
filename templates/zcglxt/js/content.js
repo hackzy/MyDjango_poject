@@ -1,5 +1,7 @@
+//页面加载集==================================
 $(document).ready(function(){
     $.ajax({
+        //获取下拉框数据
         type: "GET",
         url: "get_options",
         success: function (response) {
@@ -21,7 +23,20 @@ $(document).ready(function(){
             })
         }
     });
+    // 创建一个新的Date对象，它将包含当前日期和时间
+    var today = new Date();
+    // 获取年、月、日
+    var year = today.getFullYear();
+    var month = String(today.getMonth() + 1).padStart(2, '0'); // 月份是从0开始的
+    var day = String(today.getDate()).padStart(2, '0');
+    // 组合成YYYY-MM-DD格式
+    var todayString = `${year}-${month}-${day}`;
+    console.log(todayString);
+    $('#start_date').val(todayString);
+    $('#end_date').val(todayString);
+
     $('#table').dataTable({
+        //动态加载表格数据
         language:{url:'static/js/zh.json'},
         ajax:{
             url:'get_inactive',
@@ -38,7 +53,10 @@ $(document).ready(function(){
             {data:'descr'}
         ],
     });
+
 });
+
+//页面监听集=============================
 $('#zcdj').on('submit',function(event){
     event.preventDefault();
     var comment = new FormData(this);
@@ -49,7 +67,7 @@ $('#zcdj').on('submit',function(event){
         processData:false,
         contentType:false,
         success: function (response) {
-            $('.alert').text(response['message']).show();
+            $('#djAlert').text(response['message']).show();
         }
     });
     
@@ -65,8 +83,13 @@ $('#zcly').on('submit',function(event){
         contentType:false,
         success: function (response) {
             var alert = $('.alert')
+            alert.empty()
             alert.append(response['message'] + response['link']).show();
+        },
+        error:function(xhr){
+            $('.alert').text(xhr.responseJSON.error).show()
         }
+        
     });
 });
 $('#file_upload').on('change',function(event){
@@ -74,7 +97,8 @@ $('#file_upload').on('change',function(event){
     if (file){
         const fileType = ['application/vnd.openxmlformats-officedocument.spreadsheetml.sheet','application/vnd.ms-excel']
         if (!(fileType.includes(file.type))){
-            $('.alert').text('请上传Excel文件！').show();
+            $('#uploadAlert').text('请上传Excel文件！').show();
+            $('#file_upload').empty()
             return
         }
         var files = new FormData();
@@ -88,7 +112,8 @@ $('#file_upload').on('change',function(event){
             processData:false,
             contentType:false,
             success:function(response){
-                $('.alert').text(response.message).show();
+                $('#uploadAlert').text(response.message).show();
+                $('#file_upload').empty()
             }
         })
     }
@@ -127,4 +152,82 @@ $("#number").on('blur',function(){
             return false
         }
     });
-})
+});
+$('#data_5 input').datepicker({
+    todayBtn: "linked",
+    language: "zh-CN",
+});
+$('#zcbb').on('submit',function(event){
+    event.preventDefault();
+    var comment = new FormData(this);
+    table = $('#exceltable tbody');
+    table.empty();
+    $.ajax({
+        type: "POST",
+        url: this.url,
+        data: comment,
+        processData:false,
+        contentType:false,
+        success: function (response) {
+            $.each(response['data'], function(index, item) {
+                // 创建新行
+                var newRow = $('<tr></tr>');
+                // 创建单元格并填充数据
+                var index = $('<td></td>').text(item.index);
+                var number = $('<td></td>').text(item.number);
+                var type = $('<td></td>').text(item.type);
+                var model = $('<td></td>').text(item.model);
+                var pos = $('<td></td>').text(item.pos);
+                var ip = $('<td></td>').text(item.ip);
+                var depart_name = $('<td></td>').text(item.depart_name);
+                var descr = $('<td></td>').text(item.descr);
+                // 将单元格添加到行中
+                newRow.append(index);
+                newRow.append(number);
+                newRow.append(type);
+                newRow.append(model);
+                newRow.append(pos);
+                newRow.append(ip);
+                newRow.append(depart_name);
+                newRow.append(descr);
+                // 将行添加到表格的主体
+                $('#exceltable tbody').append(newRow);
+            });
+            var depart = response['depart_name'];
+            var version = response['version'];
+            var depart_info = $('#depart_info');
+            var version_info = $('#version_info');
+            depart_info.empty();
+            version_info.empty();
+            depart_info.append("<h5>使用机构："+ depart +"</h5>");
+            version_info.append("<h5>版本："+ version +"</h5>");
+            $("#tableBox").show();
+        },
+        error:function(xhr){
+            $('.alert').text(xhr.responseJSON.error).show()
+        }
+    });
+
+});
+$('#download').on('click',function(){
+    var old_html = window.document.body.innerHTML;
+    var print_html = $('#print').html();
+    window.document.body.innerHTML = print_html;
+    window.print();
+    window.document.body.innerHTML = old_html;
+    
+});
+$('#export').on('click',function(){
+    var start_date = $("#start_date").val()
+    var end_date = $("#end_date").val()
+    var depart_name = $("#depart_name").val()
+    var uri = '/bgdc?type=bb&start_date='+start_date+'&end_date='+end_date+'&depart_name='+depart_name
+    let link = document.createElement("a");
+    link.href = uri;
+    //对下载的文件命名
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+});
+
+
