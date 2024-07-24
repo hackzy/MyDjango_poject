@@ -52,6 +52,7 @@ $(document).ready(function(){
             {data:'ip'},
             {data:'descr'}
         ],
+        order: [[ 4, 'desc' ]],
     });
 
 });

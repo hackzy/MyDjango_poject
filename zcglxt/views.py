@@ -48,17 +48,22 @@ def zcdj(request:WSGIRequest):
     if request.method == 'POST':
         post = request.POST.dict()
         try:
-            typeName = Type_Names.objects.get(id=int(post['type_name']))
-            departName = Departments.objects.get(id=int(post['depart_name']))
-            statusValue = Status.objects.get(id=int(post['status']))
-            db = Data_All(number = post['number'],type_name = typeName, \
-                        model = post['model'],depart_name = departName, \
-                            pos = post['pos'],ip = post['ip'],descr = post['descr'], \
-                            status = statusValue    )
-        except ObjectDoesNotExist as error:
-            return JsonResponse({'status':'error','message':str(error)})
-        db.save()
-        return JsonResponse({'status':'scuess','message':'登记成功'})
+            number = Data_All.objects.get(number = post['number'])
+            return JsonResponse({'status':'error','message':'该资产编号已存在！'})
+        except ObjectDoesNotExist:
+            try:
+                typeName = Type_Names.objects.get(id=int(post['type_name']))
+                departName = Departments.objects.get(id=int(post['depart_name']))
+                statusValue = Status.objects.get(id=int(post['status']))
+
+                db = Data_All(number = post['number'],type_name = typeName, \
+                            model = post['model'],depart_name = departName, \
+                                pos = post['pos'],ip = post['ip'],descr = post['descr'], \
+                                status = statusValue    )
+            except ObjectDoesNotExist as error:
+                return JsonResponse({'status':'error','message':str(error)})
+            db.save()
+            return JsonResponse({'status':'scuess','message':'登记成功'})
     return render(request,'zcdj.html',status=200)
 
 @login_required

@@ -38,14 +38,14 @@
                             <div class="form-group draggable col-sm-6">
                                 <label class="col-sm-3 control-label">资产编号：</label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="number" class="form-control" required="" placeholder="请输入文本">
+                                    <input type="text" name="number" class="form-control" required="" placeholder="资产编号">
                                     <!--span class="help-block m-b-none">说明文字</span-->
                                 </div>
                             </div>
                             <div class="form-group draggable col-sm-6">
                                 <label class="col-sm-3 control-label">分类名称：</label>
                                 <div class="col-sm-9">
-                                    <select class="form-control" name="type_name">
+                                    <select class="form-control" name="type_name" required="请选择分类">
                                         <option>选项 1</option>
                                         <option>选项 2</option>
                                         <option>选项 3</option>
@@ -56,19 +56,19 @@
                             <div class="form-group draggable col-sm-6">
                                 <label class="col-sm-3 control-label">规格型号：</label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="model" class="form-control" required="" placeholder="请输入文本">
+                                    <input type="text" name="model" class="form-control" required="" placeholder="设备型号">
                                 </div>
                             </div>
                             <div class="form-group draggable col-sm-6">
                                 <label class="col-sm-3 control-label">资产物理位置：</label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="pos" class="form-control"  placeholder="请输入文本">
+                                    <input type="text" name="pos" class="form-control"  placeholder="摆放位置">
                                 </div>
                             </div>
                             <div class="form-group draggable col-sm-6">
                                 <label class="col-sm-3 control-label">当前机构：</label>
                                 <div class="col-sm-9">
-                                    <select class="form-control" name="depart_name">
+                                    <select class="form-control" name="depart_name" required="请选择部门">
                                         <option>选项 1</option>
                                         <option>选项 2</option>
                                         <option>选项 3</option>
@@ -79,7 +79,7 @@
                             <div class="form-group draggable col-sm-6">
                                 <label class="col-sm-3 control-label">IP地址：</label>
                                 <div class="col-sm-9">
-                                    <input type="text" name="ip" class="form-control"  placeholder="请输入文本">
+                                    <input type="text" name="ip" class="form-control"  placeholder="设备IP">
                                 </div>
                             </div>
                             <div class="form-group draggable col-sm-6">
@@ -138,11 +138,6 @@
     <script src="{% static 'js/jquery.min.js' %}"></script>
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <script src="{% static 'js/plugins/layer/layer.min.js' %}"></script>
-    <!-- Flot -->
-    <script src="{% static 'js/plugins/flot/jquery.flot.js' %}"></script>
-    <script src="{% static 'js/plugins/flot/jquery.flot.tooltip.min.js' %}"></script>
-    <script src="{% static 'js/plugins/flot/jquery.flot.resize.js' %}"></script>
-    <script src="{% static 'js/plugins/flot/jquery.flot.pie.js' %}"></script>
     <!-- 自定义js -->
     <script src="{% static 'js/content.js' %}"></script>
     <!--flotdemo-->
