@@ -27,12 +27,12 @@ class Status(models.Model):
 class Data_All(models.Model):
     number = models.CharField(max_length=18,verbose_name='资产编号')
     type_name = models.ForeignKey(Type_Names,verbose_name='分类名称',on_delete=models.PROTECT)
-    model = models.CharField(max_length=20,verbose_name='规格型号')
+    model = models.CharField(max_length=25,verbose_name='规格型号')
     depart_name = models.ForeignKey(Departments,verbose_name='使用机构',on_delete=models.PROTECT)
-    ip = models.GenericIPAddressField(null=True,protocol='ipv4')
+    ip = models.GenericIPAddressField(null=True,protocol='ipv4',default="",blank=True)
     status = models.ForeignKey(Status,verbose_name='状态',on_delete=models.PROTECT)
-    pos = models.CharField(max_length=20,verbose_name='位置')
-    descr = models.TextField(max_length=100,null=True,verbose_name='备注')
+    pos = models.CharField(max_length=25,verbose_name='摆放位置',null=True,default="",blank=True)
+    descr = models.TextField(max_length=100,null=True,verbose_name='备注',default="",blank=True)
     date = models.DateTimeField(auto_now=True,verbose_name='修改日期')
     def __str__(self) -> str:
             return self.number
