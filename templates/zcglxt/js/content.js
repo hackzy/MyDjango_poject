@@ -131,7 +131,7 @@ $('tbody').on('click','tr',function(){
     $('.type_name').val(type);
     $('input[name="pos"]').val(pos);
     $('input[name="ip"]').val(ip);
-    $('input[name="dedcr"]').val(descr);
+    $('#descr').val(descr);
     $('#depart_name').find('option:contains('+ depart +')').attr("selected",true);
 });
 $("#number").on('blur',function(){
@@ -147,7 +147,7 @@ $("#number").on('blur',function(){
             $('.type_name').val(data['type']);
             $('input[name="pos"]').val(data['pos']);
             $('input[name="ip"]').val(data['ip']);
-            $('input[name="descr"]').val(data['descr']);
+            $('#descr').val(data['descr']);
             $('#depart_name').find('option:contains('+ data['depart_name'] +')').attr("selected",true);
             return false
         }
