@@ -11,21 +11,15 @@
 
 
     <title> - 主页示例</title>
-
-    <link rel="shortcut icon" href="favicon.ico"> 
- 
-
-    <link href="{% static 'css/animate.css' %}" rel="stylesheet">
     <link href="{% static 'css/style.css' %}" rel="stylesheet">
-    <link href="{% static 'css/bootstrap.min.css' %}" rel="stylesheet">
+    <link href="{% static 'css/bootstrap.css' %}" rel="stylesheet">
 
 </head>
 
 <body class="gray-bg">
     <div class="wrapper wrapper-content">
-        <div class="row">
-            <div class="col-sm-12">
-                <div class="ibox float-e-margins">
+
+                <div class="ibox">
                     <div class="ibox-title">
                         <h5>资产登记</h5>
                     </div>
@@ -33,19 +27,17 @@
                         <div id="djAlert" class="alert alert-info" style="display:none">
                             此处可加入说明文档！
                         </div>
-                        <form role="form" class="form-horizontal m-t" id="zcdj">
+                    <div class="container">
+                        <form role="form" class="" id="zcdj">
                             {% csrf_token %} 
-                            <div class="form-group draggable col-sm-6">
-                                <label class="col-sm-3 control-label">资产编号：</label>
-                                <div class="col-sm-9">
-                                    <input type="text" name="number" class="form-control" required="" placeholder="资产编号">
-                                    <!--span class="help-block m-b-none">说明文字</span-->
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label text-right">资产编号：</label>
+                                <div class="col-sm-4 p-0">
+                                    <input type="text" name="number" class="form-control p-1" required="" placeholder="资产编号">
                                 </div>
-                            </div>
-                            <div class="form-group draggable col-sm-6">
-                                <label class="col-sm-3 control-label">分类名称：</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control" name="type_name" required="请选择分类">
+                                <label class="col-sm-2 col-form-label text-right">分类名称：</label>
+                                <div class="col-sm-4 p-0">
+                                    <select class="form-control p-1" name="type_name" required="请选择分类">
                                         <option>选项 1</option>
                                         <option>选项 2</option>
                                         <option>选项 3</option>
@@ -53,59 +45,54 @@
                                     </select>
                                 </div>
                             </div>
-                            <div class="form-group draggable col-sm-6">
-                                <label class="col-sm-3 control-label">规格型号：</label>
-                                <div class="col-sm-9">
-                                    <input type="text" name="model" class="form-control" required="" placeholder="设备型号">
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label text-right">规格型号：</label>
+                                <div class="col-sm-4 p-0">
+                                    <input type="text" name="model" class="form-control p-1" required="" placeholder="设备型号">
+                                </div>
+                                <label class="col-sm-2 col-form-label text-right">资产物理位置：</label>
+                                <div class="col-sm-4 p-0">
+                                    <input type="text" name="pos" class="form-control p-1"  placeholder="摆放位置">
                                 </div>
                             </div>
-                            <div class="form-group draggable col-sm-6">
-                                <label class="col-sm-3 control-label">资产物理位置：</label>
-                                <div class="col-sm-9">
-                                    <input type="text" name="pos" class="form-control"  placeholder="摆放位置">
-                                </div>
-                            </div>
-                            <div class="form-group draggable col-sm-6">
-                                <label class="col-sm-3 control-label">当前机构：</label>
-                                <div class="col-sm-9">
-                                    <select class="form-control" name="depart_name" required="请选择部门">
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label text-right">当前机构：</label>
+                                <div class="col-sm-4 p-0">
+                                    <select class="form-control p-1" name="depart_name" required="请选择部门">
                                         <option>选项 1</option>
                                         <option>选项 2</option>
                                         <option>选项 3</option>
                                         <option>选项 4</option>
                                     </select>
                                 </div>
-                            </div>
-                            <div class="form-group draggable col-sm-6">
-                                <label class="col-sm-3 control-label">IP地址：</label>
-                                <div class="col-sm-9">
-                                    <input type="text" name="ip" class="form-control"  placeholder="设备IP">
+                                <label class="col-sm-2 col-form-label text-right">IP地址：</label>
+                                <div class="col-sm-4 p-0">
+                                    <input type="text" name="ip" class="form-control p-1"  placeholder="设备IP">
                                 </div>
                             </div>
-                            <div class="form-group draggable col-sm-6">
-                                <label class="col-sm-3 control-label">备注：</label>
-                                <div class="col-sm-9">
-                                <textarea id="ccomment" name="descr" class="form-control" aria-required="true"></textarea></div>
-                            </div>
-                            <div class="form-group draggable col-sm-6">
-                                <label class="col-sm-3 control-label">当前状态：
-                                </label>
-                                <div class="col-sm-9">
-                                    <label class="radio-inline">
+                            <div class="form-group row">
+                                <label class="col-sm-2 col-form-label text-right">当前状态：</label>
+                                <div class="col-sm-4 p-0">
+                                    <label class="radio-inline col-form-label">
                                         <input type="radio" checked value="2" id="optionsRadios1" name="status">待用</label>
-                                    <label class="radio-inline">
+                                    <label class="radio-inline col-form-label">
                                         <input type="radio" value="1" id="optionsRadios2" name="status">在用</label>
-                                    <label class="radio-inline">
+                                    <label class="radio-inline col-form-label">
                                         <input type="radio" value="3" id="optionsRadios3" name="status">待报废</label>
                                 </div>
+                                <label class="col-sm-2 col-form-label text-right">备注：</label>
+                                <div class="col-sm-4 p-0">
+                                <textarea id="ccomment" name="descr" class="form-control p-1" aria-required="true"></textarea></div>
+
                             </div>
-                            <div class="form-group draggable">
-                                <div class="col-sm-12 col-sm-offset-5">
+                            <div class="form-group row">
+                                <div class="col-sm-12 text-center pt-2">
                                     <button class="btn btn-primary" type="submit">保存</button>
-                                    <button class="btn btn-white" type="reset">取消</button>
+                                    <button class="btn btn-secondary" type="reset">取消</button>
                                 </div>
                             </div>
                         </form>
+                    </div>
                         <div class="clearfix"></div>
                     </div>
                 </div>
@@ -124,15 +111,14 @@
                         <from class="form-group">
                             {% csrf_token %} 
                             <label class="font-noraml">文件选择（单选）</label>
-                            <small><input type="button" class="btn btn-primary pull-right m-1" value="模板下载" src=""></small>
+                            <input type="button" class="btn btn-light btn-sm float-right" value="模板下载" src="">
                             <input type="file" class="form-control" id="file_upload">
                         </form>
                         
                     </div>
                 </div>
             </div>
-            </div>
-        </div>
+
     </div>
     <!-- 全局js -->
     <script src="{% static 'js/jquery.min.js' %}"></script>

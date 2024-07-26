@@ -33,8 +33,8 @@ $(document).ready(function(){
     var todayString = `${year}-${month}-${day}`;
     $('#start_date').val(todayString);
     $('#end_date').val(todayString);
-
-    $('#table').dataTable({
+try
+    {$('#table').dataTable({
         //动态加载表格数据
         language:{url:'static/js/zh.json'},
         ajax:{
@@ -52,7 +52,7 @@ $(document).ready(function(){
             {data:'descr'}
         ],
         order: [[ 4, 'desc' ]],
-    });
+    });}catch(e){};
 
 });
 
@@ -113,7 +113,7 @@ $('#file_upload').on('change',function(event){
             contentType:false,
             success:function(response){
                 $('#uploadAlert').text(response.message).show();
-                $('#file_upload').empty()
+                $('#file_upload').val('');
             }
         })
     }
@@ -153,10 +153,11 @@ $("#number").on('blur',function(){
         }
     });
 });
+try{
 $('#data_5 input').datepicker({
     todayBtn: "linked",
     language: "zh-CN",
-});
+});}catch(e){};
 $('#zcbb').on('submit',function(event){
     event.preventDefault();
     var comment = new FormData(this);
