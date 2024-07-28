@@ -4,7 +4,6 @@ from zcglxt.models import Data_All,Edit_Log,Departments,Type_Names
  
 class Command(BaseCommand):
     help = 'Clears all test data'
- 
     def handle(self, *args, **options):
         Data_All.objects.all().delete()
         Edit_Log.objects.all().delete()
