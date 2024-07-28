@@ -154,9 +154,12 @@ $("#number").on('blur',function(){
     });
 });
 try{
-$('#data_5 input').datepicker({
+$('#data_5 .input-daterange').datepicker({
     todayBtn: "linked",
     language: "zh-CN",
+    keyboardNavigation: false,
+    forceParse: false,
+    autoclose: true
 });}catch(e){};
 $('#zcbb').on('submit',function(event){
     event.preventDefault();
